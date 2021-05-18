@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: ramazan
+Build-Jdk: 11.0.7
+Implementation-Title: AnalyzerViewer
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: AnalyzerViewer
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/AnalyzerViewer
+ /
+Created-By: Maven Integration for Eclipse
+
