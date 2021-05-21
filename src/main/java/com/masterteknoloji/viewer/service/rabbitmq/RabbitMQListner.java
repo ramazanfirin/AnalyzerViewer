@@ -26,7 +26,7 @@ public class RabbitMQListner implements MessageListener {
 	
 	public void onMessage(Message message) {
 		String messageValue = new String(message.getBody());
-		System.out.println("Short live Consuming Message - " + messageValue);
+//		System.out.println("Short live Consuming Message - " + messageValue);
 		dataProcessManager.lineCrossedByMQ(new Long(messageValue));
 	}
 

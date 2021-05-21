@@ -27,7 +27,7 @@ public class RabbitMQSender {
 	
 	public void send(Long lineId) {
 		amqpTemplate.convertAndSend(exchange,"", lineId);
-		System.out.println("Send msg = " + lineId);
+//		System.out.println("Send msg = " + lineId);
 //		System.out.println("cameraService sender "+ cameraService);
 //		System.out.println("dataProcessManager sender"+ dataProcessManager);
 	    

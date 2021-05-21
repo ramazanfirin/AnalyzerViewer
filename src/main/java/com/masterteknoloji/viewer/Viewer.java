@@ -4,12 +4,20 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,16 +26,20 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.masterteknoloji.viewer.domain.Camera;
-import com.masterteknoloji.viewer.overlay.ViewerOverlay;
+import com.masterteknoloji.viewer.player.PlayerManager;
+import com.masterteknoloji.viewer.player.ViewerOverlay;
+import com.masterteknoloji.viewer.player.ViewerOverlay2;
 import com.masterteknoloji.viewer.service.CameraService;
 import com.masterteknoloji.viewer.service.DataProcessManager;
+
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 /**
  * Created by Administrator on 2017/12/7.
  */
 @SpringBootApplication
 @ComponentScan("com")
-public class Viewer extends JFrame{
+public class Viewer extends JFrame {
 
 
 	Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
@@ -36,7 +48,7 @@ public class Viewer extends JFrame{
 	int viewCount = 1;
 	JPanel jPanel = new JPanel();
 	
-	List<ViewerOverlay> overlayList = new ArrayList<ViewerOverlay>();
+	List<ViewerOverlay2> overlayList = new ArrayList<ViewerOverlay2>();
 	
 	@Autowired
 	CameraService cameraService;
@@ -47,7 +59,11 @@ public class Viewer extends JFrame{
 	
 	List<Camera> cameraList = new ArrayList<Camera>();
 	
+	PlayerManager playerManager;
 	
+	public void startProcess() {
+		dataProcessManager.processDataByMQ(cameraList);
+	}
     
     private  void createAndShowGUI(){
     
@@ -57,6 +73,8 @@ public class Viewer extends JFrame{
 //		jPanel.setLayout(new GridLayout(2, 2));
 		setContentPane(jPanel);
 		
+		playerManager = new PlayerManager(this);
+		
 		cameraList = cameraService.getCameraList();
 		System.out.println(cameraList.size());
 		
@@ -64,17 +82,37 @@ public class Viewer extends JFrame{
 			prepareOverlays(viewCount);
 			play(cameraList);
 //			dataProcessManager.processdata(cameraList);
-			dataProcessManager.processDataByMQ(cameraList);
+//			dataProcessManager.processDataByMQ(cameraList);
+			
+			addListeners(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
+		
+//		Timer timer = new Timer(1000, new ActionListener() {
+//			  @Override
+//			  public void actionPerformed(ActionEvent arg0) {
+//				  Collections.shuffle(cameraList);
+//				  try {
+//					  for (ViewerOverlay2 embeddedMediaPlayer2 : overlayList) {
+//                      	embeddedMediaPlayer2.getMediaPlayer().play();
+//                      	startProcess();
+//						}				  } catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			  }
+//			});
+//	timer.setRepeats(false); // Only execute once
+//	timer.start(); // Go go go!
     }
 
     
     public void prepareOverlays(int viewCount) throws InvocationTargetException, InterruptedException {
     	for (int i = 0; i < viewCount; i++) {
-    		ViewerOverlay directTestPlayer = new ViewerOverlay(null,viewWitdh, viewHeight, null);
-			JPanel imagePane = directTestPlayer.getImagePane();
+    		ViewerOverlay2 directTestPlayer = new ViewerOverlay2(null,viewWitdh, viewHeight, null);
+    		directTestPlayer.getMediaPlayer().addMediaPlayerEventListener(playerManager);
+    		JPanel imagePane = directTestPlayer.getImagePane();
 			jPanel.add(imagePane);
 			overlayList.add(directTestPlayer);
     	}
@@ -85,15 +123,44 @@ public class Viewer extends JFrame{
     	for (int i = 0; i < cameraList.size(); i++) {
 			Camera camera = cameraList.get(i);
 			if(i<viewCount) {
-				ViewerOverlay directTestPlayer = overlayList.get(i);
+				ViewerOverlay2 directTestPlayer = overlayList.get(i);
 				directTestPlayer.setCamera(camera);
-				directTestPlayer.play();
+				
+//				Thread.currentThread().sleep(5000);
+				directTestPlayer.prepare();
 			}
 		}
     }
     
     
-    
+    public void addListeners(JFrame f) {
+    	f.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch(e.getKeyCode()) {
+                    case KeyEvent.VK_SPACE:
+                        for (ViewerOverlay2 embeddedMediaPlayer2 : overlayList) {
+                        	embeddedMediaPlayer2.getMediaPlayer().play();
+                        	startProcess();
+						}
+                    	break;
+                    	
+                                   }
+            }
+        });
+
+        f.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                for (ViewerOverlay2 embeddedMediaPlayer2 : overlayList) {
+                	embeddedMediaPlayer2.getMediaPlayer().release();
+                	embeddedMediaPlayer2.getFactory().release();
+                }
+                System.exit(0);
+            }
+        });
+    }
+
     
 	
 	    
@@ -110,7 +177,7 @@ public class Viewer extends JFrame{
       	Viewer ex = (Viewer)ctx.getBean(Viewer.class);
       	ex.createAndShowGUI();
       	ex.setVisible(true);
-      	
+//      	ex.startProcess();
       });
   }
 

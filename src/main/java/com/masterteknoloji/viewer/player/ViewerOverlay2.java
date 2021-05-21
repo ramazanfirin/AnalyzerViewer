@@ -17,7 +17,7 @@
  * Copyright 2009-2018 Caprica Software Limited.
  */
 
-package com.masterteknoloji.viewer.overlay;
+package com.masterteknoloji.viewer.player;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -54,7 +54,7 @@ import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
  * <p>
  * The frame data may also be rendered into components such as an OpenGL texture.
  */
-public class ViewerOverlay {
+public class ViewerOverlay2 {
 
 	Camera camera ;
 	
@@ -73,7 +73,7 @@ public class ViewerOverlay {
      */
     private final BufferedImage image;
 
-    private final MediaPlayerFactory factory;
+    private MediaPlayerFactory factory;
 
     private final DirectMediaPlayer mediaPlayer;
 
@@ -87,7 +87,7 @@ public class ViewerOverlay {
 
 	private final ImagePane imagePane;
 
-    public ViewerOverlay(Camera camera ,int width, int height, String[] args) throws InterruptedException, InvocationTargetException {
+    public ViewerOverlay2(Camera camera ,int width, int height, String[] args) throws InterruptedException, InvocationTargetException {
         image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(width, height);
         image.setAccelerationPriority(1.0f);
         
@@ -102,6 +102,7 @@ public class ViewerOverlay {
         
         factory = new MediaPlayerFactory(args);
         mediaPlayer = factory.newDirectMediaPlayer(new TestBufferFormatCallback(), new TestRenderCallback());
+//        mediaPlayer.
 //        processdata();
     }
 
@@ -137,6 +138,7 @@ public class ViewerOverlay {
 
 			polygon3.addPoint((int) line.getProjectedEnd().getX() - 40, (int) line.getProjectedEnd().getY());
 			polygon3.addPoint((int) line.getProjectedEnd().getX(), (int) line.getProjectedEnd().getY());
+			
 			g2.fillPolygon(polygon3);
 
 		}
@@ -152,7 +154,25 @@ public class ViewerOverlay {
 			g2.drawString(line.getCount().toString(), countX, countY);
 			
 		}
-            
+         
+		
+		Font myFont2 = new Font ("Courier New", 1, 24);
+		g2.setFont (myFont2);
+		g2.setColor(Color.cyan);
+		g2.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
+			Line line = (Line) iterator.next();
+			int countX = ((int)line.getProjectedStart().getX()-20);
+			int countY = ((int)line.getProjectedStart().getY()-20);
+			
+			g2.fillOval(countX -10, countY -20, 30, 30);
+
+			g2.setColor(Color.black);
+			
+			g2.drawString("1", countX, countY);
+			
+		}
+		
         }
     }
 
@@ -231,11 +251,20 @@ public class ViewerOverlay {
 		 mediaPlayer.playMedia(camera.getConnectionUrl());
  }
 
+ public void prepare() {
+	 if(camera!=null)
+		 mediaPlayer.prepareMedia(camera.getConnectionUrl()); 
+ }
+ 
 public Camera getCamera() {
 	return camera;
 }
 
 public void setCamera(Camera camera) {
 	this.camera = camera;
+}
+
+public MediaPlayerFactory getFactory() {
+	return factory;
 }
 }

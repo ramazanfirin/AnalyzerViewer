@@ -22,7 +22,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.masterteknoloji.viewer.domain.Camera;
-import com.masterteknoloji.viewer.overlay.ViewerOverlay;
+import com.masterteknoloji.viewer.player.ViewerOverlay;
 import com.masterteknoloji.viewer.service.CameraService;
 import com.masterteknoloji.viewer.service.DataProcessManager;
 
