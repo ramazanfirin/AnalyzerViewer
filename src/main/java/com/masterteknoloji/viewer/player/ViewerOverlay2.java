@@ -27,6 +27,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.lang.reflect.InvocationTargetException;
@@ -36,6 +37,7 @@ import javax.swing.JPanel;
 
 import com.masterteknoloji.viewer.domain.Camera;
 import com.masterteknoloji.viewer.domain.Line;
+import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
 
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
@@ -172,10 +174,29 @@ public class ViewerOverlay2 {
 			g2.drawString("1", countX, countY);
 			
 		}
-		
+		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
+			Line line = (Line) iterator.next();
+			drawReport(g2,line);
+		}
         }
     }
 
+    
+    public void drawReport( Graphics2D g2,Line line) {
+    	g2.setColor(Color.yellow);
+    	g2.fill(new Rectangle(50, 50, 250, 150));
+    	Font myFont2 = new Font ("Courier New", 1, 15);
+		g2.setFont (myFont2);
+		g2.setColor(Color.black);
+		int index=0;
+		int y = 60;
+    	for (Iterator iterator = line.getLastDatas().iterator(); iterator.hasNext();) {
+    		VideoRecordQueryVM type = (VideoRecordQueryVM) iterator.next();
+    		g2.drawString("type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() , 60, y+(index*20));
+    		index++;
+		}
+    }
+    
     private final class TestRenderCallback extends RenderCallbackAdapter {
 
         public TestRenderCallback() {
@@ -245,6 +266,9 @@ public class ViewerOverlay2 {
 		line.getProjectedStart().setLocation(interpolated_start_x, interpolated_start_y);
 		line.getProjectedEnd().setLocation(interpolated_end_x, interpolated_end_y);
     }
+
+   
+   
    
  public void play() {
 	 if(camera!=null)

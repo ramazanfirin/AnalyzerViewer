@@ -16,8 +16,8 @@ import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
 
 public class Util {
 
-	public static List<Long> getCameraData() {
-		List<Long> result = new ArrayList<Long>();
+	public static List<VideoRecordQueryVM> getCameraData() {
+		List<VideoRecordQueryVM> result = new ArrayList<VideoRecordQueryVM>();
 		
 		
 		try {
@@ -37,11 +37,11 @@ public class Util {
 			System.out.println(content.toString());
 			ObjectMapper mapper = new ObjectMapper();
 	        mapper.findAndRegisterModules();
-	  	    List<VideoRecordQueryVM> asList = mapper.readValue(content.toString(), new TypeReference<List<VideoRecordQueryVM>>() { });
+	        result = mapper.readValue(content.toString(), new TypeReference<List<VideoRecordQueryVM>>() { });
 
-	  	    for (VideoRecordQueryVM videoRecordQueryVM : asList) {
-	  	    	result.add(videoRecordQueryVM.getDuration());
-			}
+//	  	    for (VideoRecordQueryVM videoRecordQueryVM : asList) {
+//	  	    	result.add(videoRecordQueryVM.getDuration());
+//			}
 	  	    
 			System.out.println("bitti");
 		} catch (IOException e) {

@@ -9,7 +9,7 @@ public class VideoRecordQueryVM {
 	Long lineId;
 	String vehicleType;
 	Long duration;
-	
+	Long speed =50l;
 	
 	
 	public VideoRecordQueryVM() {
@@ -53,6 +53,12 @@ public class VideoRecordQueryVM {
 	}
 	public void setDuration(Long duration) {
 		this.duration = duration;
+	}
+	public Long getSpeed() {
+		return speed;
+	}
+	public void setSpeed(Long speed) {
+		this.speed = speed;
 	}
 	
 	

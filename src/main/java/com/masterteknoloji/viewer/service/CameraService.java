@@ -36,8 +36,8 @@ public class CameraService {
 		
 		for (Camera camera :  getCameraList()) {
 			for (Line line : camera.getLineList()) {
-				System.out.println(line.getId()+ " "+lineId);
-				if(line.getId().longValue()==lineId.longValue())
+//				System.out.println(line.getId()+ " "+lineId);
+				if(line.getId()==lineId.longValue())
 					return line;
 			}
 		}

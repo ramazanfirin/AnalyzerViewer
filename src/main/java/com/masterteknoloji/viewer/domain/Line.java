@@ -3,9 +3,14 @@ package com.masterteknoloji.viewer.domain;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
 
 public class Line {
 	
@@ -24,7 +29,14 @@ public class Line {
 	@JsonIgnore
 	Camera camera;
 	
-	List<Long> data = new ArrayList<Long>();
+	@JsonIgnore
+	List<VideoRecordQueryVM> data = new ArrayList<VideoRecordQueryVM>();
+	
+	@JsonIgnore
+	Map<String,Long> typeDetails = new HashMap<String,Long>();
+	
+	@JsonIgnore
+	Queue<VideoRecordQueryVM> lastDatas = new LinkedList<VideoRecordQueryVM>();
 	
 	public Long getCount() {
 		return count;
@@ -68,10 +80,10 @@ public class Line {
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
-	public List<Long> getData() {
+	public List<VideoRecordQueryVM> getData() {
 		return data;
 	}
-	public void setData(List<Long> data) {
+	public void setData(List<VideoRecordQueryVM> data) {
 		this.data = data;
 	}
 	public Point getProjectedStart() {
@@ -86,7 +98,19 @@ public class Line {
 	public void setProjectedEnd(Point projectedEnd) {
 		this.projectedEnd = projectedEnd;
 	}
-	
+	public Map<String, Long> getTypeDetails() {
+		return typeDetails;
+	}
+	public void setTypeDetails(Map<String, Long> typeDetails) {
+		this.typeDetails = typeDetails;
+	}
+	public Queue<VideoRecordQueryVM> getLastDatas() {
+		return lastDatas;
+	}
+	public void setLastDatas(Queue<VideoRecordQueryVM> lastDatas) {
+		this.lastDatas = lastDatas;
+	}
+
 	
 	
 }

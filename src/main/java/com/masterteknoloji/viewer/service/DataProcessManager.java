@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.masterteknoloji.viewer.domain.Camera;
 import com.masterteknoloji.viewer.domain.Line;
+import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
 import com.masterteknoloji.viewer.service.rabbitmq.RabbitMQSender;
 
 @Service
@@ -28,8 +29,8 @@ public class DataProcessManager {
     	for (Camera camera : cameraList) {
     		if(camera.getProcessData()) {
 				for (Line line : camera.getLineList()) {
-					for (Long  duration : line.getData()) {
-					Timer timer = new Timer(duration.intValue(), new ActionListener() {
+					for (VideoRecordQueryVM  queryVM : line.getData()) {
+					Timer timer = new Timer(queryVM.getDuration().intValue(), new ActionListener() {
 						  @Override
 						  public void actionPerformed(ActionEvent arg0) {
 							lineCrossed(line);
@@ -45,23 +46,33 @@ public class DataProcessManager {
 	
 	public void lineCrossed(Line line) {
     	if(line!=null) {
+    		System.out.println("lineId="+line.getId());
 	    	line.setCount(line.getCount()+1);
 	    	line.setColor(Color.red);
 	    	System.out.println(line.getId()+ ":"+ line.getColor() +" yapıldı");
+	    	
 	    	Timer timer = new Timer(100, new ActionListener() {
 				  @Override
 				  public void actionPerformed(ActionEvent arg0) {
 					line.setColor(Color.yellow);
+					System.out.println(line.getId()+ ":"+ Color.yellow +" eski haline geitrildi");
 				  }
 				});
 	    	timer.setRepeats(false); // Only execute once
 	    	timer.start(); // Go go go!
+    	}else {
+    		System.out.println("line=null");
     	}
     }
 	
-	public void lineCrossedByMQ(Long lineId) {
-		Line line  = cameraService.findLine(lineId);
+	public void lineCrossedByMQ(VideoRecordQueryVM queryVM) {
+		Line line  = cameraService.findLine(queryVM.getLineId());
 		lineCrossed(line);
+		
+		line.getLastDatas().add(queryVM);
+		if(line.getLastDatas().size()>5) {
+			line.getLastDatas().remove();
+		}
 	}
 	
 	
@@ -69,12 +80,12 @@ public class DataProcessManager {
     	for (Camera camera : cameraList) {
     		if(camera.getProcessData()) {
 				for (Line line : camera.getLineList()) {
-					for (Long  duration : line.getData()) {
-					Timer timer = new Timer(duration.intValue(), new ActionListener() {
+					for (VideoRecordQueryVM  queryVM : line.getData()) {
+					Timer timer = new Timer(queryVM.getDuration().intValue(), new ActionListener() {
 						  @Override
 						  public void actionPerformed(ActionEvent arg0) {
 							//lineCrossed(line);
-							rabbitMQSender.send(line.getId());
+							rabbitMQSender.send(queryVM);
 						  }
 						});
 			    	timer.setRepeats(false); // Only execute once
