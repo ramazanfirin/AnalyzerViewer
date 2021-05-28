@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -38,6 +39,7 @@ import javax.swing.JPanel;
 import com.masterteknoloji.viewer.domain.Camera;
 import com.masterteknoloji.viewer.domain.Line;
 import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
+import com.masterteknoloji.viewer.util.Util;
 
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
@@ -129,6 +131,23 @@ public class ViewerOverlay2 {
           if(camera==null)
         	  return;
           
+          Polygon polygon1 = new Polygon();
+          addPointToPolygon(polygon1, 366, 489, width, height);
+          addPointToPolygon(polygon1, 374, 537, width, height);
+          addPointToPolygon(polygon1, 651, 668, width, height);
+          addPointToPolygon(polygon1, 967, 675, width, height);
+          addPointToPolygon(polygon1, 1018, 570, width, height);
+          addPointToPolygon(polygon1, 579, 435, width, height);
+          //g2.drawPolygon(polygon1);
+  
+      	Polygon polygon2 = new Polygon();
+      	addPointToPolygon(polygon2, 598, 434, width, height);
+      	addPointToPolygon(polygon2, 1026, 564, width, height);
+      	addPointToPolygon(polygon2, 1047, 516, width, height);
+      	addPointToPolygon(polygon2, 716, 402, width, height);
+        
+        //g2.drawPolygon(polygon2);
+          
   		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
 			projectLine(line);
@@ -136,9 +155,9 @@ public class ViewerOverlay2 {
 
 			Polygon polygon3 = new Polygon();
 			polygon3.addPoint((int) line.getProjectedStart().getX(), (int) line.getProjectedStart().getY());
-			polygon3.addPoint((int) line.getProjectedStart().getX() - 40, (int) line.getProjectedStart().getY());
+			polygon3.addPoint((int) line.getProjectedStart().getX() + 50, (int) line.getProjectedStart().getY());
 
-			polygon3.addPoint((int) line.getProjectedEnd().getX() - 40, (int) line.getProjectedEnd().getY());
+			polygon3.addPoint((int) line.getProjectedEnd().getX() + 50, (int) line.getProjectedEnd().getY());
 			polygon3.addPoint((int) line.getProjectedEnd().getX(), (int) line.getProjectedEnd().getY());
 			
 			g2.fillPolygon(polygon3);
@@ -151,7 +170,7 @@ public class ViewerOverlay2 {
 		g2.setComposite(AlphaComposite.SrcOver.derive(1f));
 		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
-			int countX = ((int)line.getProjectedStart().getX() -40 +(int)line.getProjectedEnd().getX())/2;
+			int countX = ((int)line.getProjectedStart().getX() +50 +(int)line.getProjectedEnd().getX())/2;
 			int countY = ((int)line.getProjectedStart().getY() +10 +(int)line.getProjectedEnd().getY())/2;
 			g2.drawString(line.getCount().toString(), countX, countY);
 			
@@ -184,12 +203,13 @@ public class ViewerOverlay2 {
     
     public void drawReport( Graphics2D g2,Line line) {
     	g2.setColor(Color.yellow);
+    	g2.setComposite(AlphaComposite.SrcOver.derive(0.8f));
     	g2.fill(new Rectangle(50, 50, 250, 150));
-    	Font myFont2 = new Font ("Courier New", 1, 15);
+    	Font myFont2 = new Font ("Courier New", 1, 20);
 		g2.setFont (myFont2);
 		g2.setColor(Color.black);
 		int index=0;
-		int y = 60;
+		int y = 70;
     	for (Iterator iterator = line.getLastDatas().iterator(); iterator.hasNext();) {
     		VideoRecordQueryVM type = (VideoRecordQueryVM) iterator.next();
     		g2.drawString("type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() , 60, y+(index*20));
@@ -267,7 +287,10 @@ public class ViewerOverlay2 {
 		line.getProjectedEnd().setLocation(interpolated_end_x, interpolated_end_y);
     }
 
-   
+  public void addPointToPolygon(Polygon polygon,int x,int y,int width,int height) {
+	  Point point1 = Util.project(x,y, width, height);
+	  polygon.addPoint(point1.x,point1.y);	  
+  }
    
    
  public void play() {

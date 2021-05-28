@@ -1,5 +1,7 @@
 package com.masterteknoloji.viewer.util;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -64,6 +66,38 @@ public class Util {
 		return result;
 	}
 	
+	public static Point project(int x, int y,int w,int h) {
+		
+		Dimension videoDimension = new Dimension(1280, 720);
+		
+		int interpolated_x = (int) (1.0f * x * w / videoDimension.width);
+		int interpolated_y = (int) (1.0f * y * h / videoDimension.height);
+		
+		float aspectRatio = 1.0f * videoDimension.width / videoDimension.height;
+		float surfaceRatio = 1.0f * w / h;
+		
+		
+		if(surfaceRatio > aspectRatio) {
+			//border left/right -> change x / width
+			
+			int actualWidth = (int) (aspectRatio * h);				
+			int borderSize = w - actualWidth; //left and right
+			
+			//recalculate values with actual width and add half of border size
+			interpolated_x = (int) (1.0f * x * actualWidth / videoDimension.width) + borderSize/2;
+			
+		} else {
+			//border up/down -> change y / height
+			
+			int actualHeight = (int) (w / aspectRatio);		
+			int borderSize = h - actualHeight; //top and down
+			
+			//recalculate values with actual height and add half of border size
+			interpolated_y = (int) (1.0f * y * actualHeight / videoDimension.height) + borderSize/2;
+		}
+		
+		return new Point(interpolated_x, interpolated_y);
+	}
 	
 	
 }

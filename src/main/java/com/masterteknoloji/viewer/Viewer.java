@@ -2,22 +2,19 @@ package com.masterteknoloji.viewer;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,12 +24,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.masterteknoloji.viewer.domain.Camera;
 import com.masterteknoloji.viewer.player.PlayerManager;
-import com.masterteknoloji.viewer.player.ViewerOverlay;
 import com.masterteknoloji.viewer.player.ViewerOverlay2;
 import com.masterteknoloji.viewer.service.CameraService;
 import com.masterteknoloji.viewer.service.DataProcessManager;
-
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 /**
  * Created by Administrator on 2017/12/7.
@@ -157,6 +151,19 @@ public class Viewer extends JFrame {
                 	embeddedMediaPlayer2.getFactory().release();
                 }
                 System.exit(0);
+            }
+        });
+        
+        f.addMouseListener(new MouseListener() {
+            public void mousePressed(MouseEvent me) { }
+            public void mouseReleased(MouseEvent me) { }
+            public void mouseEntered(MouseEvent me) { }
+            public void mouseExited(MouseEvent me) { }
+            public void mouseClicked(MouseEvent me) { 
+              int x = me.getX();
+              int y = me.getY();
+//              text.setText("X:" + x + " Y:" + y); 
+              System.out.println("X:" + x + " Y:" + y);
             }
         });
     }

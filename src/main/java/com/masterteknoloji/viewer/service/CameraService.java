@@ -60,8 +60,8 @@ public class CameraService {
 		camera4 = new Camera();
 
 		Line line1 = new Line();
-		line1.setStart(new Point(516,507));
-		line1.setEnd(new Point(778,630));
+		line1.setStart(new Point(629, 455));
+		line1.setEnd(new Point(876, 534));
 		line1.setId(1l);
 		line1.setCamera(camera1);
 		line1.setData(Util.getCameraData());
