@@ -131,22 +131,28 @@ public class ViewerOverlay2 {
           if(camera==null)
         	  return;
           
-          Polygon polygon1 = new Polygon();
-          addPointToPolygon(polygon1, 366, 489, width, height);
-          addPointToPolygon(polygon1, 374, 537, width, height);
-          addPointToPolygon(polygon1, 651, 668, width, height);
-          addPointToPolygon(polygon1, 967, 675, width, height);
-          addPointToPolygon(polygon1, 1018, 570, width, height);
-          addPointToPolygon(polygon1, 579, 435, width, height);
-          //g2.drawPolygon(polygon1);
+//          Polygon polygon1 = new Polygon();
+//          addPointToPolygon(polygon1, 366, 489, width, height);
+//          addPointToPolygon(polygon1, 374, 537, width, height);
+//          addPointToPolygon(polygon1, 651, 668, width, height);
+//          addPointToPolygon(polygon1, 967, 675, width, height);
+//          addPointToPolygon(polygon1, 1018, 570, width, height);
+//          addPointToPolygon(polygon1, 579, 435, width, height);
+//          //g2.drawPolygon(polygon1);
   
-      	Polygon polygon2 = new Polygon();
-      	addPointToPolygon(polygon2, 598, 434, width, height);
-      	addPointToPolygon(polygon2, 1026, 564, width, height);
-      	addPointToPolygon(polygon2, 1047, 516, width, height);
-      	addPointToPolygon(polygon2, 716, 402, width, height);
+//      	Polygon polygon2 = new Polygon();
+//      	addPointToPolygon(polygon2, 598, 434, width, height);
+//      	addPointToPolygon(polygon2, 1026, 564, width, height);
+//      	addPointToPolygon(polygon2, 1047, 516, width, height);
+//      	addPointToPolygon(polygon2, 716, 402, width, height);
         
         //g2.drawPolygon(polygon2);
+          
+        for (Polygon polygon: camera.getPolygons()) {
+        	Polygon temp = projectPolygon(polygon, width, height);
+        	g2.drawPolygon(temp);
+		}  
+          
           
   		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
@@ -292,6 +298,17 @@ public class ViewerOverlay2 {
 	  polygon.addPoint(point1.x,point1.y);	  
   }
    
+  public Polygon projectPolygon(Polygon polygon,int width,int height) {
+	 
+	  Polygon result = new Polygon();
+	  for (int i = 0; i < polygon.npoints; i++) {
+		  Point point1 = Util.project(polygon.xpoints[i],polygon.ypoints[i], width, height);
+		  result.addPoint(point1.x,point1.y);	  
+	  
+	  }
+	  
+	  return result;
+	  }
    
  public void play() {
 	 if(camera!=null)

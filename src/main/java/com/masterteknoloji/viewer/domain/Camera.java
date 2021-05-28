@@ -32,6 +32,8 @@ public class Camera {
 	
 	Boolean processData = true;
 	
+	
+	
 	public String getName() {
 		return name;
 	}

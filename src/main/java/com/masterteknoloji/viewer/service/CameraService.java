@@ -1,6 +1,7 @@
 package com.masterteknoloji.viewer.service;
 
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,11 +68,22 @@ public class CameraService {
 		line1.setData(Util.getCameraData());
 		camera1.getLineList().add(line1);
 		camera1.setShow(true);
-		
-//		
-//		camera1.getLineList().add(line11);
 		camera1.setConnectionUrl(kbb1);
+		Polygon polygon1 = new Polygon();
+		polygon1.addPoint(366, 489);
+		polygon1.addPoint(374, 537);
+		polygon1.addPoint(651, 668);
+		polygon1.addPoint(967, 675);
+		polygon1.addPoint(1018, 570);
+		polygon1.addPoint(579, 435);
+		camera1.getPolygons().add(polygon1);
 		
+		Polygon polygon2 = new Polygon();
+		polygon2.addPoint(598, 434);
+		polygon2.addPoint(1026, 564);
+		polygon2.addPoint(1047, 516);
+		polygon2.addPoint(716, 402);
+		camera1.getPolygons().add(polygon2);
 		
 		Line line2 = new Line();
 		line2.setStart(new Point(600, 680));
