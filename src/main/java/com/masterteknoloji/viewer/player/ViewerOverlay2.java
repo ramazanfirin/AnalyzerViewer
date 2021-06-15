@@ -59,6 +59,8 @@ import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
  * The frame data may also be rendered into components such as an OpenGL texture.
  */
 public class ViewerOverlay2 {
+	
+//	int carIndex=0;
 
 	Camera camera ;
 	
@@ -150,7 +152,7 @@ public class ViewerOverlay2 {
           
         for (Polygon polygon: camera.getPolygons()) {
         	Polygon temp = projectPolygon(polygon, width, height);
-        	g2.drawPolygon(temp);
+        	//g2.drawPolygon(temp);
 		}  
           
           

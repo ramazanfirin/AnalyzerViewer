@@ -18,12 +18,12 @@ import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
 
 public class Util {
 
-	public static List<VideoRecordQueryVM> getCameraData() {
+	public static List<VideoRecordQueryVM> getCameraData(Long videoId) {
 		List<VideoRecordQueryVM> result = new ArrayList<VideoRecordQueryVM>();
 		
 		
 		try {
-			URL url = new URL("http://localhost:8080/api/video-records/getAllData/1");
+			URL url = new URL("http://localhost:8080/api/video-records/getAllData/"+videoId);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			int status = con.getResponseCode();

@@ -22,7 +22,8 @@ public class CameraService {
 	final String kbb2 = "D:\\KBB\\location2\\Location2-EVENING-Part3-KARTAL+KAVŞAK_PASAJLAR_20210415174939_20210415180000_212255.mp4";
 	final String kbb3 = "D:\\KBB\\location3\\Location3-EVENING-Part1-VALİLİK_PASAJLAR_20210415170000_20210415172522_84587.mp4";
 	final String kbb4 = "D:\\KBB\\location3\\Location3-MORNING-valilik.mp4";
-
+	final String kbb5 = "C:\\Users\\ramazan\\Downloads\\new_night.m4v";
+	
 	List<Camera> cameraList = null;
 	
 	public List<Camera> getCameraList(){
@@ -65,7 +66,7 @@ public class CameraService {
 		line1.setEnd(new Point(876, 534));
 		line1.setId(1l);
 		line1.setCamera(camera1);
-		line1.setData(Util.getCameraData());
+		line1.setData(Util.getCameraData(1l));
 		camera1.getLineList().add(line1);
 		camera1.setShow(true);
 		camera1.setConnectionUrl(kbb1);
@@ -86,14 +87,30 @@ public class CameraService {
 		camera1.getPolygons().add(polygon2);
 		
 		Line line2 = new Line();
-		line2.setStart(new Point(600, 680));
-		line2.setEnd(new Point(1200,400));
+		line2.setStart(new Point(245, 462));
+		line2.setEnd(new Point(576,375));
 		line2.setId(2l);
 		line2.setCamera(camera2);
-//		line2.setData(getDataForCamera());
+		line2.setData(Util.getCameraData(6l));
 		camera2.getLineList().add(line2);
-		camera2.setConnectionUrl(kbb2);
+		camera2.setConnectionUrl(kbb5);
 		camera2.setShow(false);
+		Polygon polygon3 = new Polygon();
+		polygon3.addPoint(209,368);
+		polygon3.addPoint(459,321);
+		polygon3.addPoint(846,443);
+		polygon3.addPoint(293,586);
+		camera2.getPolygons().add(polygon3);
+		
+		Polygon polygon4 = new Polygon();
+		polygon4.addPoint(298,601);
+		polygon4.addPoint(856,448);
+		polygon4.addPoint(1230,579);
+		polygon4.addPoint(1239,665);
+		polygon4.addPoint(347,670);
+		camera2.getPolygons().add(polygon4);
+		
+		
 		
 		Line line3 = new Line();
 		line3.setStart(new Point(400, 480));
@@ -116,9 +133,9 @@ public class CameraService {
 		camera4.setShow(false);
 		
 		cameraList.add(camera1);
-		cameraList.add(camera2);
-		cameraList.add(camera3);
-		cameraList.add(camera4);
+//		cameraList.add(camera2);
+//		cameraList.add(camera3);
+//		cameraList.add(camera4);
 
 		return cameraList;		
 	}
