@@ -48,13 +48,14 @@ public class DataProcessManager {
     	if(line!=null) {
     		System.out.println("lineId="+line.getId());
 	    	line.setCount(line.getCount()+1);
+//	    	Color orijinalColor = line.getColor();
 	    	line.setColor(Color.red);
 	    	System.out.println(line.getId()+ ":"+ line.getColor() +" yapıldı");
 	    	
 	    	Timer timer = new Timer(100, new ActionListener() {
 				  @Override
 				  public void actionPerformed(ActionEvent arg0) {
-					line.setColor(Color.yellow);
+					line.setColor(line.getOrijinalColor());
 					System.out.println(line.getId()+ ":"+ Color.yellow +" eski haline geitrildi");
 				  }
 				});

@@ -163,9 +163,9 @@ public class ViewerOverlay2 {
 
 			Polygon polygon3 = new Polygon();
 			polygon3.addPoint((int) line.getProjectedStart().getX(), (int) line.getProjectedStart().getY());
-			polygon3.addPoint((int) line.getProjectedStart().getX() + 50, (int) line.getProjectedStart().getY());
+			polygon3.addPoint((int) line.getProjectedStart().getX(), (int) line.getProjectedStart().getY()-20);
 
-			polygon3.addPoint((int) line.getProjectedEnd().getX() + 50, (int) line.getProjectedEnd().getY());
+			polygon3.addPoint((int) line.getProjectedEnd().getX() , (int) line.getProjectedEnd().getY()-20);
 			polygon3.addPoint((int) line.getProjectedEnd().getX(), (int) line.getProjectedEnd().getY());
 			
 			g2.fillPolygon(polygon3);
@@ -178,8 +178,8 @@ public class ViewerOverlay2 {
 		g2.setComposite(AlphaComposite.SrcOver.derive(1f));
 		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
-			int countX = ((int)line.getProjectedStart().getX() +50 +(int)line.getProjectedEnd().getX())/2;
-			int countY = ((int)line.getProjectedStart().getY() +10 +(int)line.getProjectedEnd().getY())/2;
+			int countX = ((int)line.getProjectedStart().getX()  +(int)line.getProjectedEnd().getX())/2;
+			int countY = ((int)line.getProjectedStart().getY() -10 +(int)line.getProjectedEnd().getY())/2;
 			g2.drawString(line.getCount().toString(), countX, countY);
 			
 		}
@@ -187,18 +187,17 @@ public class ViewerOverlay2 {
 		
 		Font myFont2 = new Font ("Courier New", 1, 24);
 		g2.setFont (myFont2);
-		g2.setColor(Color.cyan);
+		
 		g2.setComposite(AlphaComposite.SrcOver.derive(0.5f));
 		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
+			g2.setColor(line.getColor());
 			int countX = ((int)line.getProjectedStart().getX()-20);
 			int countY = ((int)line.getProjectedStart().getY()-20);
 			
 			g2.fillOval(countX -10, countY -20, 30, 30);
-
-			g2.setColor(Color.black);
-			
-			g2.drawString("1", countX, countY);
+			g2.setColor(Color.BLACK);
+			g2.drawString(line.getId().toString(), countX, countY);
 			
 		}
 		for (Iterator iterator = camera.getLineList().iterator(); iterator.hasNext();) {
@@ -210,17 +209,18 @@ public class ViewerOverlay2 {
 
     
     public void drawReport( Graphics2D g2,Line line) {
-    	g2.setColor(Color.yellow);
+    	g2.setColor(line.getColor());
     	g2.setComposite(AlphaComposite.SrcOver.derive(0.8f));
-    	g2.fill(new Rectangle(50, 50, 250, 150));
+    	g2.fill(line.getReportRectangle());
     	Font myFont2 = new Font ("Courier New", 1, 20);
 		g2.setFont (myFont2);
 		g2.setColor(Color.black);
 		int index=0;
-		int y = 70;
+		int x=(int)line.getReportRectangle().getX();
+		int y = (int)line.getReportRectangle().getY()+20;
     	for (Iterator iterator = line.getLastDatas().iterator(); iterator.hasNext();) {
     		VideoRecordQueryVM type = (VideoRecordQueryVM) iterator.next();
-    		g2.drawString("type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() , 60, y+(index*20));
+    		g2.drawString("type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() , x, y+(index*20));
     		index++;
 		}
     }

@@ -2,6 +2,7 @@ package com.masterteknoloji.viewer.domain;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,11 +21,13 @@ public class Line {
 	Point end;
 	Point projectedStart = new Point();
 	Point projectedEnd = new Point();
+	Rectangle reportRectangle = new Rectangle();
 	
 	
 	Long count = 0l;
 	
 	Color color = Color.yellow;
+	Color orijinalColor= Color.yellow;
 	
 	@JsonIgnore
 	Camera camera;
@@ -109,6 +112,18 @@ public class Line {
 	}
 	public void setLastDatas(Queue<VideoRecordQueryVM> lastDatas) {
 		this.lastDatas = lastDatas;
+	}
+	public Rectangle getReportRectangle() {
+		return reportRectangle;
+	}
+	public void setReportRectangle(Rectangle reportRectangle) {
+		this.reportRectangle = reportRectangle;
+	}
+	public Color getOrijinalColor() {
+		return orijinalColor;
+	}
+	public void setOrijinalColor(Color orijinalColor) {
+		this.orijinalColor = orijinalColor;
 	}
 
 	
