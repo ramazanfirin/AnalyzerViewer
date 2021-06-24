@@ -78,11 +78,14 @@ public class DataProcessManager {
 	
 	
 	public void processDataByMQ(List<Camera> cameraList) {
+		
+		int delay = 00;
+		
     	for (Camera camera : cameraList) {
     		if(camera.getProcessData()) {
 				for (Line line : camera.getLineList()) {
 					for (VideoRecordQueryVM  queryVM : line.getData()) {
-					Timer timer = new Timer(queryVM.getDuration().intValue(), new ActionListener() {
+					Timer timer = new Timer(queryVM.getDuration().intValue()+delay, new ActionListener() {
 						  @Override
 						  public void actionPerformed(ActionEvent arg0) {
 							//lineCrossed(line);

@@ -33,8 +33,11 @@ import com.masterteknoloji.viewer.service.DataProcessManager;
  */
 @SpringBootApplication
 @ComponentScan("com")
-public class Viewer extends JFrame {
+public class ViewerIntersections extends JFrame {
 
+	final String intersectionDay = "D:\\KBB\\intersection\\input_multiple_regions.m4v";
+	final String intersectionNigth = "D:\\KBB\\intersection\\converted\\input_multiple_regions_NIGHT-2.mp4";
+    
 
 	Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
 	int viewWitdh = (int)DimMax.getWidth();
@@ -67,9 +70,10 @@ public class Viewer extends JFrame {
 //		jPanel.setLayout(new GridLayout(2, 2));
 		setContentPane(jPanel);
 		
-		playerManager = new PlayerManager(this);
+		//playerManager = new PlayerManager(this);
 		
-		cameraList = cameraService.prepareCameraListForTwoRoadDay();
+		//cameraList = cameraService.prepareCameraListIntersectionDay(9l,intersectionDay);
+		cameraList = cameraService.prepareCameraListIntersectionDay(10l,intersectionNigth);
 		System.out.println(cameraList.size());
 		
 		try {
@@ -105,7 +109,7 @@ public class Viewer extends JFrame {
     public void prepareOverlays(int viewCount) throws InvocationTargetException, InterruptedException {
     	for (int i = 0; i < viewCount; i++) {
     		ViewerOverlay2 directTestPlayer = new ViewerOverlay2(null,viewWitdh, viewHeight, null);
-    		directTestPlayer.getMediaPlayer().addMediaPlayerEventListener(playerManager);
+    		//directTestPlayer.getMediaPlayer().addMediaPlayerEventListener(playerManager);
     		JPanel imagePane = directTestPlayer.getImagePane();
 			jPanel.add(imagePane);
 			overlayList.add(directTestPlayer);
@@ -176,12 +180,12 @@ public class Viewer extends JFrame {
     
 	public static void main(String[] args){
 
-		ConfigurableApplicationContext ctx = new SpringApplicationBuilder(Viewer.class)
+		ConfigurableApplicationContext ctx = new SpringApplicationBuilder(ViewerIntersections.class)
               .headless(false).run(args);
 
       EventQueue.invokeLater(() -> {
 
-      	Viewer ex = (Viewer)ctx.getBean(Viewer.class);
+      	ViewerIntersections ex = (ViewerIntersections)ctx.getBean(ViewerIntersections.class);
       	ex.createAndShowGUI();
       	ex.setVisible(true);
 //      	ex.startProcess();

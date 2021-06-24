@@ -10,7 +10,7 @@ public class VideoRecordQueryVM {
 	String vehicleType;
 	Long duration;
 	Long speed =50l;
-	
+	String direction;
 	
 	public VideoRecordQueryVM() {
 		super();
@@ -23,6 +23,15 @@ public class VideoRecordQueryVM {
 		this.lineId = lineId;
 		this.vehicleType = vehicleType;
 		this.duration = duration;
+	}
+	public VideoRecordQueryVM(Long id,String vehicleType,Instant insertDate,Long lineId,Long duration,String direction) {
+		super();
+		this.id = id;
+		this.insertDate = insertDate;
+		this.lineId = lineId;
+		this.vehicleType = vehicleType;
+		this.duration = duration;
+		this.direction = direction;
 	}
 	public Long getId() {
 		return id;
@@ -59,6 +68,12 @@ public class VideoRecordQueryVM {
 	}
 	public void setSpeed(Long speed) {
 		this.speed = speed;
+	}
+	public String getDirection() {
+		return direction;
+	}
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 	
 	

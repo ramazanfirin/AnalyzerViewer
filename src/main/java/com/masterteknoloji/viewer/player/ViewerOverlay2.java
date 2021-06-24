@@ -36,6 +36,8 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import org.springframework.util.StringUtils;
+
 import com.masterteknoloji.viewer.domain.Camera;
 import com.masterteknoloji.viewer.domain.Line;
 import com.masterteknoloji.viewer.domain.dto.VideoRecordQueryVM;
@@ -148,11 +150,11 @@ public class ViewerOverlay2 {
 //      	addPointToPolygon(polygon2, 1047, 516, width, height);
 //      	addPointToPolygon(polygon2, 716, 402, width, height);
         
-        //g2.drawPolygon(polygon2);
+//        g2.drawPolygon(polygon2);
           
         for (Polygon polygon: camera.getPolygons()) {
         	Polygon temp = projectPolygon(polygon, width, height);
-        	//g2.drawPolygon(temp);
+        	g2.drawPolygon(temp);
 		}  
           
           
@@ -220,9 +222,20 @@ public class ViewerOverlay2 {
 		int y = (int)line.getReportRectangle().getY()+20;
     	for (Iterator iterator = line.getLastDatas().iterator(); iterator.hasNext();) {
     		VideoRecordQueryVM type = (VideoRecordQueryVM) iterator.next();
-    		g2.drawString("type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() , x, y+(index*20));
+    		g2.drawString(prepareReportMessage(type) , x, y+(index*20));
     		index++;
 		}
+    }
+    
+    public String prepareReportMessage(VideoRecordQueryVM type) {
+    	String result ="";
+    	if(!StringUtils.isEmpty(type.getDirection())) {
+    		result = type.getDirection()+","+type.getVehicleType();
+    	}else {
+    		result = "type:"+type.getVehicleType()+ " - speed:"+type.getSpeed() ;
+    	}
+    	
+    	return result;
     }
     
     private final class TestRenderCallback extends RenderCallbackAdapter {

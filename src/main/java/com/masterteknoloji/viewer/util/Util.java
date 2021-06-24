@@ -90,6 +90,42 @@ public class Util {
 		return result;
 	}
 	
+	public static List<VideoRecordQueryVM> getDirectionDataForIntersections(Long videoId,Long index) {
+		List<VideoRecordQueryVM> result = new ArrayList<VideoRecordQueryVM>();
+		
+		
+		try {                
+			URL url = new URL("http://localhost:8080/api/video-direction-records/getLineData/"+videoId+"/"+index);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			int status = con.getResponseCode();
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer content = new StringBuffer();
+			while ((inputLine = in.readLine()) != null) {
+				content.append(inputLine);
+			}
+			in.close();
+					
+			System.out.println(content.toString());
+			ObjectMapper mapper = new ObjectMapper();
+	        mapper.findAndRegisterModules();
+	        result = mapper.readValue(content.toString(), new TypeReference<List<VideoRecordQueryVM>>() { });
+
+//	  	    for (VideoRecordQueryVM videoRecordQueryVM : asList) {
+//	  	    	result.add(videoRecordQueryVM.getDuration());
+//			}
+	  	    
+			System.out.println("bitti");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return result;
+	}
+	
 	public static List<Long>  getRandomDataForCamera() {
 		Random rand = new Random();
 		List<Long> result = new ArrayList<Long>();
