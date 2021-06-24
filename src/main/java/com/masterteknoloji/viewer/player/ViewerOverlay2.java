@@ -154,7 +154,7 @@ public class ViewerOverlay2 {
           
         for (Polygon polygon: camera.getPolygons()) {
         	Polygon temp = projectPolygon(polygon, width, height);
-        	g2.drawPolygon(temp);
+        	//g2.drawPolygon(temp);
 		}  
           
           

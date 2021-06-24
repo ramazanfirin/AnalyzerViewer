@@ -36,7 +36,9 @@ import com.masterteknoloji.viewer.service.DataProcessManager;
 public class ViewerIntersections extends JFrame {
 
 	final String intersectionDay = "D:\\KBB\\intersection\\input_multiple_regions.m4v";
-	final String intersectionNigth = "D:\\KBB\\intersection\\converted\\input_multiple_regions_NIGHT-2.mp4";
+	//final String intersectionNigth = "D:\\KBB\\intersection\\intersection_nigth.webm";
+	
+	final String intersectionNigth = "C:\\Users\\ramazan\\Documents\\Bandicam\\bandicam 2021-06-24 10-09-41-126.mp4";
     
 
 	Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();

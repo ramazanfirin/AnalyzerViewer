@@ -35,7 +35,17 @@ import com.masterteknoloji.viewer.service.DataProcessManager;
 @ComponentScan("com")
 public class Viewer extends JFrame {
 
-
+	final String gultepeGunduz = "D:\\KBB\\gultepe\\gunduz.m4v";
+	final Long gunduzGultepeToKartalLineId = 13l;
+	final Long gunduzKartalToGultepeLineId = 14l;
+	
+	final String gultepeGece = "D:\\KBB\\gultepe\\exact_input.webm";
+	//final String gultepeGece = "C:\\Users\\ramazan\\Documents\\Bandicam\\bandicam 2021-06-24 11-45-27-531.mp4";
+	
+	final Long geceGultepeToKartalLineId = 15l;
+	final Long geceKartalToGultepeLineId = 16l;
+	
+	
 	Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
 	int viewWitdh = (int)DimMax.getWidth();
 	int viewHeight = (int)DimMax.getHeight();
@@ -69,7 +79,8 @@ public class Viewer extends JFrame {
 		
 		playerManager = new PlayerManager(this);
 		
-		cameraList = cameraService.prepareCameraListForTwoRoadDay();
+		//cameraList = cameraService.prepareCameraListForTwoRoadDay();
+		cameraList = cameraService.prepareCameraListGultepeDay(gultepeGece, geceGultepeToKartalLineId, geceKartalToGultepeLineId);
 		System.out.println(cameraList.size());
 		
 		try {

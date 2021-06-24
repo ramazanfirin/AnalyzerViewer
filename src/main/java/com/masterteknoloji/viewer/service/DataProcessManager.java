@@ -79,22 +79,27 @@ public class DataProcessManager {
 	
 	public void processDataByMQ(List<Camera> cameraList) {
 		
-		int delay = 00;
+		int delay = -000;
 		
     	for (Camera camera : cameraList) {
     		if(camera.getProcessData()) {
 				for (Line line : camera.getLineList()) {
 					for (VideoRecordQueryVM  queryVM : line.getData()) {
-					Timer timer = new Timer(queryVM.getDuration().intValue()+delay, new ActionListener() {
+					     
+//						if(queryVM.getDuration().intValue()<delay)
+//							continue;
+						
+						
+						Timer timer = new Timer(queryVM.getDuration().intValue()-delay, new ActionListener() {
 						  @Override
 						  public void actionPerformed(ActionEvent arg0) {
 							//lineCrossed(line);
 							rabbitMQSender.send(queryVM);
 						  }
 						});
-			    	timer.setRepeats(false); // Only execute once
-			    	timer.start(); // Go go go!
-//			    	break;
+				    	timer.setRepeats(false); // Only execute once
+				    	timer.start(); // Go go go!
+	//			    	break;
 					}
 				}
 			}

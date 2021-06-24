@@ -153,6 +153,91 @@ public List<Camera> prepareCameraListForTwoRoadDay(){
 		return cameraList;		
 	}
 
+
+public List<Camera> prepareCameraListGultepeDay(String url,Long lineId1,Long lineId2){
+	
+	cameraList = new ArrayList<Camera>();
+	Camera camera1 ;
+	Camera camera2 ;
+	Camera camera3 ;
+	Camera camera4 ;
+
+
+	camera1 = new Camera();
+	camera2 = new Camera();
+	camera3 = new Camera();
+	camera4 = new Camera();
+
+	Line line1 = new Line();
+	line1.setStart(new Point(1094 , 445));
+	line1.setEnd(new Point(651 , 422));
+	line1.setId(lineId1);
+	line1.setCamera(camera1);
+	line1.setData(Util.getLineData(lineId1));
+	line1.setReportRectangle(new Rectangle(1450, 50, 250, 150));
+	camera1.getLineList().add(line1);
+	camera1.setShow(true);
+	camera1.setConnectionUrl(url);
+	line1.setColor(Color.CYAN);
+	line1.setOrijinalColor(Color.CYAN);
+	Polygon polygon1 = new Polygon();
+	polygon1.addPoint(565 , 561);
+	polygon1.addPoint(1166 , 591);
+	polygon1.addPoint(1094 , 445);
+	polygon1.addPoint(651 , 422);
+	camera1.getPolygons().add(polygon1);
+	
+	Polygon polygon2 = new Polygon();
+	polygon2.addPoint(653 , 416);
+	polygon2.addPoint(1091 , 444);
+	polygon2.addPoint(1037 , 368);
+	polygon2.addPoint(703 , 345);
+	camera1.getPolygons().add(polygon2);
+	
+	Line line2 = new Line();
+	line2.setStart(new Point(598, 418));
+	line2.setEnd(new Point(282, 376));
+	line2.setId(lineId2);
+	line2.setColor(Color.yellow);
+	line2.setOrijinalColor(Color.yellow);
+	line2.setCamera(camera2);
+	line2.setData(Util.getLineData(lineId2));
+	line2.setReportRectangle(new Rectangle(50, 50, 250, 150));
+	camera1.getLineList().add(line2);
+	
+	Polygon polygon3 = new Polygon();
+	polygon3.addPoint(346, 358);
+	polygon3.addPoint(632, 401);
+	polygon3.addPoint(528, 518);
+	polygon3.addPoint(213, 426);
+	camera1.getPolygons().add(polygon3);
+	
+	Polygon polygon4 = new Polygon();
+	polygon4.addPoint(184, 429);
+	polygon4.addPoint(522, 524);
+	polygon4.addPoint(424, 629);
+	polygon4.addPoint(68 ,504);
+	camera1.getPolygons().add(polygon4);
+		
+//	Polygon polygon5 = new Polygon();
+//	polygon5.addPoint(318, 344);
+//	polygon5.addPoint(634, 398);
+//	polygon5.addPoint(522, 527);
+//	polygon5.addPoint(188, 414);
+//	camera1.getPolygons().add(polygon5);
+	
+//	Polygon polygon6 = new Polygon();
+//	polygon6.addPoint(184, 429);
+//	polygon6.addPoint(522, 524);
+//	polygon6.addPoint(424, 629);
+//	polygon6.addPoint(68 ,504);
+//	camera1.getPolygons().add(polygon6);
+//	
+	cameraList.add(camera1);
+	return cameraList;		
+}
+
+
 public List<Camera> prepareCameraListIntersectionDay(Long videoId,String file){
 	
 	cameraList = new ArrayList<Camera>();
